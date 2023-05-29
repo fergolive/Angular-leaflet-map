@@ -17,6 +17,8 @@ export class MapComponent implements AfterViewInit {
   userLocation?:L.LatLng;
   myIcon = L.divIcon({className: 'my-div-icon',iconSize:[50,90],bgPos:[0,0]});
 
+ 
+
   constructor() { 
     
   }
@@ -42,17 +44,31 @@ export class MapComponent implements AfterViewInit {
 
   private initMap(): void {
     //create map into id 'map'
-    this.map = L.map('map').setView([-30.889332, -55.557966], 16);
+
+    //option 1
+    //this.map = L.map('map').setView([-30.889332, -55.557966], 16);
+
+    //option 2 - with options
+    this.map = new L.Map('map', {
+      zoomControl: false,
+      maxZoom: 20,
+      minZoom: 5,
+      center: new L.LatLng(40.71838, -74.007683),
+      zoom: 16
+    });
+
+  
+
     //setup tile layer (map style) - see documentation to change style of map
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
+    this.showLayers()
+
     //event click of map to add marker
     this.map.on('click',  ($event:any)=> {
       let lat=$event.latlng.lat;
       let lng=$event.latlng.lng;
       this.addMarker(lat,lng)
     });
+
   }
 
 
@@ -80,7 +96,37 @@ export class MapComponent implements AfterViewInit {
 
   }
 
+  showLayers(){
+    const tileLayers = {
+      'OpenStreet':L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.map),
 
+      'Google 1': L.tileLayer('https://{s}.google.com/vt/lyrs=m&hl=tr&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        zIndex: 0,
+        maxNativeZoom: 21,
+        maxZoom: 21
+      }).addTo(this.map),
+
+      'Google 2': L.tileLayer('https://{s}.google.com/vt/lyrs=p&hl=tr&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        zIndex: 0,
+        maxNativeZoom: 21,
+        maxZoom: 21
+      }),
+
+      'Google 3': L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&hl=tr&x={x}&y={y}&z={z}', {
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        maxNativeZoom: 20,
+        zIndex: 0,
+        maxZoom: 20
+      }),
+    };
+
+    L.control.layers(tileLayers).addTo(this.map);
+   
+  }
 
 
 

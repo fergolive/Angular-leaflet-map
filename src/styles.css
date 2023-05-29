@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+.my-div-icon{
+   /*  background-image: url( '../src/assets/markers/001.svg' );
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: rgb(123, 255, 0);
+    display: flex;
+    width: 800px;
+    height: 800px;
+    background-position: bottom center, 50%, 50%; */
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url( '../src/assets/markers/001.svg' );
+    
+  }
+
+
+
+  

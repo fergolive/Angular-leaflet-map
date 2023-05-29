@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 
@@ -7,18 +7,18 @@ import 'leaflet-routing-machine';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,NgFor],
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit {
   map:any;
-  positions:L.LatLng[]=[]
+  savedLocations:any[]=[]
   userLocation?:L.LatLng;
   myIcon = L.divIcon({className: 'my-div-icon',iconSize:[50,90],bgPos:[0,0]});
 
   constructor() { 
-    this.getCurrentLocation()
+    
   }
 
   ngAfterViewInit(): void {
@@ -30,9 +30,15 @@ export class MapComponent implements AfterViewInit {
       let lat=data.coords.latitude;
       let lng=data.coords.longitude;
       this.userLocation=new L.LatLng(lat,lng);
-      this.addMarker(lat,lng)
+      this.addMarker(lat,lng);
+      this.goToLocation(lat,lng);
     })
   }
+
+  goToLocation(lat:any,lng:any){
+    this.map.setView([lat,lng])
+  }
+
 
   private initMap(): void {
     //create map into id 'map'
@@ -49,9 +55,32 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+
+
   addMarker(lat:any,lng:any){
-    L.marker([lat,lng],{draggable:true,icon: this.myIcon}).addTo(this.map)
+    if(!this.checkSavedLocation(lat,lng)){
+      let newMarker=L.marker([lat,lng],{draggable:true,icon: this.myIcon})
+      newMarker.addTo(this.map);
+      this.savedLocations.push(newMarker)
+      
+    } else{
+      console.log('This locations already exist!');
+      
+    }
+    
   }
+
+  delMarker(selectedMarker:any){
+    this.savedLocations = this.savedLocations.filter(marker=>  marker['_latlng'].lat!==selectedMarker['_latlng'].lat && marker['_latlng'].lng!==selectedMarker['_latlng'].lng)
+    selectedMarker.removeFrom(this.map)
+  }
+
+  checkSavedLocation(lat:any,lng:any){
+    return !!this.savedLocations.find(marker=>marker['_latlng'].lat===lat && marker['_latlng'].lng===lng) || false
+
+  }
+
+
 
 
 

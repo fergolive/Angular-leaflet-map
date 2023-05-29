@@ -15,9 +15,7 @@ Js docs
 - npm install
 - ng serve
 
-### Notes
-
-# Leaflet maps
+## Notes
 
 Js docs
 

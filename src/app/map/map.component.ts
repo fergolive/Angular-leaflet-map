@@ -20,13 +20,6 @@ export class MapComponent implements AfterViewInit {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
   
-    /* var myIcon = L.icon({
-      iconUrl: '../assets/markers/001.svg',
-      iconSize: [38, 95],
-      iconAnchor: [22, 94],
-      popupAnchor: [-3, -76],
-     
-    }); */
 
     var myIcon = L.divIcon({
         className: 'my-div-icon',

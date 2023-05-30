@@ -1,7 +1,9 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import * as L from 'leaflet';
-import 'leaflet-routing-machine';
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+import "leaflet-routing-machine";
+
 
 
 @Component({
@@ -53,14 +55,20 @@ export class MapComponent implements AfterViewInit {
       zoomControl: false,
       maxZoom: 20,
       minZoom: 5,
-      center: new L.LatLng(40.71838, -74.007683),
-      zoom: 16
+      center: new L.LatLng(40.708231, -74.005966),
+      zoom: 14
     });
 
   
 
     //setup tile layer (map style) - see documentation to change style of map
     this.showLayers()
+
+  /*   L.Routing.control({
+      waypoints: [L.latLng(57.74, 11.94), L.latLng(57.6792, 11.949)],
+      routeWhileDragging: true
+    }).addTo(this.map);
+ */
 
     //event click of map to add marker
     this.map.on('click',  ($event:any)=> {
@@ -127,6 +135,14 @@ export class MapComponent implements AfterViewInit {
     L.control.layers(tileLayers).addTo(this.map);
    
   }
+
+
+ /*  drawRoute(){
+    L.Routing.control({
+      waypoints: [L.latLng(57.74, 11.94), L.latLng(57.6792, 11.949)],
+      routeWhileDragging: true
+    }).addTo(this.map);
+  } */
 
 
 

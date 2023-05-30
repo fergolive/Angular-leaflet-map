@@ -1,7 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import * as L from 'leaflet';
-import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet-routing-machine";
 
 
